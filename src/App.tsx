@@ -1,5 +1,6 @@
+import { Toaster } from 'sonner';
 import { Navbar, Footer } from '@/components/layout';
-import { Hero, About, Activities, Restaurant, Gallery } from '@/components/sections';
+import { Hero, About, Activities, Restaurant, Gallery, Contact } from '@/components/sections';
 
 export default function App() {
   return (
@@ -11,8 +12,10 @@ export default function App() {
         <Activities />
         <Restaurant />
         <Gallery />
+        <Contact />
       </main>
       <Footer />
+      <Toaster richColors position="top-right" />
     </div>
   );
 }

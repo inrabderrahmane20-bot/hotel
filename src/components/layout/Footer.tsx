@@ -1,11 +1,22 @@
 import { Phone, Mail, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
 import { NAV_LINKS } from '@/constants';
 
-const POPULAR_ACTIVITIES = ['Desert Safari', 'Cooking Classes', 'Medina Tours', 'Spa & Hammam'];
+const POPULAR_ACTIVITIES = [
+  { label: 'Desert Safari', href: '#activities' },
+  { label: 'Cooking Classes', href: '#activities' },
+  { label: 'Medina Tours', href: '#activities' },
+  { label: 'Spa & Hammam', href: '#activities' },
+];
+
+const SOCIAL_LINKS = [
+  { icon: Facebook, href: 'https://facebook.com', label: 'Facebook' },
+  { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
+  { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
+];
 
 export function Footer() {
   return (
-    <footer id="contact" className="bg-[#3D4A2B] text-white py-16 px-4">
+    <footer className="bg-[#3D4A2B] text-white py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           <div>
@@ -15,15 +26,18 @@ export function Footer() {
               heart of Marrakech.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="text-white/70 hover:text-[#C9A961] transition-colors">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="text-white/70 hover:text-[#C9A961] transition-colors">
-                <Instagram size={20} />
-              </a>
-              <a href="#" className="text-white/70 hover:text-[#C9A961] transition-colors">
-                <Twitter size={20} />
-              </a>
+              {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="text-white/70 hover:text-[#C9A961] transition-colors"
+                >
+                  <Icon size={20} />
+                </a>
+              ))}
             </div>
           </div>
 
@@ -46,9 +60,11 @@ export function Footer() {
           <div>
             <h4 className="text-white mb-4">Popular Activities</h4>
             <ul className="space-y-3">
-              {POPULAR_ACTIVITIES.map((activity) => (
-                <li key={activity} className="text-white/80">
-                  {activity}
+              {POPULAR_ACTIVITIES.map(({ label, href }) => (
+                <li key={label}>
+                  <a href={href} className="text-white/70 hover:text-[#C9A961] transition-colors">
+                    {label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -61,13 +77,17 @@ export function Footer() {
                 <MapPin size={20} className="flex-shrink-0 mt-0.5 text-[#C9A961]" />
                 <span>Derb el Hammam, Medina, Marrakech 40000, Morocco</span>
               </li>
-              <li className="flex items-center gap-3 text-white/80">
+              <li className="flex items-center gap-3">
                 <Phone size={20} className="flex-shrink-0 text-[#C9A961]" />
-                <span>+212 524 123 456</span>
+                <a href="tel:+212524123456" className="text-white/80 hover:text-[#C9A961] transition-colors">
+                  +212 524 123 456
+                </a>
               </li>
-              <li className="flex items-center gap-3 text-white/80">
+              <li className="flex items-center gap-3">
                 <Mail size={20} className="flex-shrink-0 text-[#C9A961]" />
-                <span>info@riadmarrakech.com</span>
+                <a href="mailto:info@riadmarrakech.com" className="text-white/80 hover:text-[#C9A961] transition-colors">
+                  info@riadmarrakech.com
+                </a>
               </li>
             </ul>
           </div>
