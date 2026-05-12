@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { PageHero } from '@/components/layout/PageHero';
 import { GalleryLightbox } from '@/components/shared/GalleryLightbox';
 import { ImageWithFallback } from '@/components/shared/ImageWithFallback';
+import { Reveal } from '@/components/shared/Reveal';
 import type { GalleryImage } from '@/types';
 
 const HERO_IMAGE =
@@ -20,6 +21,7 @@ const ALL_IMAGES: GalleryImage[] = [
 ];
 
 const CATEGORIES = ['All', 'Hotel', 'Experiences', 'Cuisine'];
+const IMG_DIRECTIONS = ['left', 'up', 'right', 'left', 'up', 'right', 'left', 'up', 'right'] as const;
 
 export default function GalleryPage() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -32,65 +34,42 @@ export default function GalleryPage() {
 
   return (
     <>
-      <PageHero
-        title="Gallery"
-        subtitle="A visual journey through Riad Marrakech and the magic of Morocco"
-        image={HERO_IMAGE}
-        breadcrumb="Gallery"
-      />
+      <PageHero title="Gallery" subtitle="A visual journey through Riad Marrakech and the magic of Morocco" image={HERO_IMAGE} breadcrumb="Gallery" />
 
-      <section className="py-16 md:py-24 px-4 bg-background">
+      <section className="py-16 md:py-24 px-4 bg-background overflow-hidden">
         <div className="max-w-7xl mx-auto">
           {/* Category Filter */}
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-10 md:mb-12 flex-wrap">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 sm:px-6 py-2 rounded-full text-sm font-medium transition-colors border ${
-                  activeCategory === cat
-                    ? 'bg-[#7C8A5D] text-white border-[#7C8A5D]'
-                    : 'border-border text-foreground/70 hover:border-[#7C8A5D] hover:text-[#7C8A5D]'
-                }`}
-              >
-                {cat}
-              </button>
+            {CATEGORIES.map((cat, i) => (
+              <Reveal key={cat} direction="down" delay={i * 0.08}>
+                <button onClick={() => setActiveCategory(cat)}
+                  className={`px-4 sm:px-6 py-2 rounded-full text-sm font-medium transition-colors border ${activeCategory === cat ? 'bg-[#7C8A5D] text-white border-[#7C8A5D]' : 'border-border text-foreground/70 hover:border-[#7C8A5D] hover:text-[#7C8A5D]'}`}>
+                  {cat}
+                </button>
+              </Reveal>
             ))}
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {ALL_IMAGES.map((image, index) => (
-              <button
-                key={image.alt}
-                onClick={() => setSelectedIndex(index)}
-                className={`relative overflow-hidden rounded-2xl group focus:outline-none focus:ring-2 focus:ring-[#7C8A5D] focus:ring-offset-2 ${
-                  index === 0 ? 'md:col-span-2 md:row-span-2' : ''
-                } aspect-square`}
-                aria-label={`View ${image.alt}`}
-              >
-                <ImageWithFallback
-                  src={image.url}
-                  alt={image.alt}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-end p-3 sm:p-4">
-                  <span className="text-white/0 group-hover:text-white text-xs sm:text-sm font-medium transition-colors">
-                    {image.alt}
-                  </span>
-                </div>
-              </button>
+              <Reveal key={image.alt} direction={IMG_DIRECTIONS[index]} delay={(index % 3) * 0.1}
+                className={index === 0 ? 'md:col-span-2 md:row-span-2' : ''}>
+                <button onClick={() => setSelectedIndex(index)}
+                  className="relative overflow-hidden rounded-2xl group w-full focus:outline-none focus:ring-2 focus:ring-[#7C8A5D] focus:ring-offset-2 aspect-square block"
+                  aria-label={`View ${image.alt}`}>
+                  <ImageWithFallback src={image.url} alt={image.alt}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-end p-3 sm:p-4">
+                    <span className="text-white/0 group-hover:text-white text-xs sm:text-sm font-medium transition-colors">{image.alt}</span>
+                  </div>
+                </button>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <GalleryLightbox
-        images={ALL_IMAGES}
-        selectedIndex={selectedIndex}
-        onClose={() => setSelectedIndex(null)}
-        onNext={onNext}
-        onPrev={onPrev}
-      />
+      <GalleryLightbox images={ALL_IMAGES} selectedIndex={selectedIndex} onClose={() => setSelectedIndex(null)} onNext={onNext} onPrev={onPrev} />
     </>
   );
 }
