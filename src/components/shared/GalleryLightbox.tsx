@@ -23,61 +23,59 @@ export function GalleryLightbox({ images, selectedIndex, onClose, onNext, onPrev
   }, [selectedIndex, onClose, onNext, onPrev]);
 
   if (selectedIndex === null) return null;
-
   const image = images[selectedIndex];
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+      className="fixed inset-0 z-[100] bg-black/96 flex items-center justify-center"
       onClick={onClose}
     >
+      {/* Close */}
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 text-white/70 hover:text-white bg-black/40 p-2 rounded-full transition-colors z-10"
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white/70 hover:text-white bg-black/40 p-2 rounded-full transition-colors z-10"
         aria-label="Close"
       >
-        <X size={24} />
+        <X size={20} />
       </button>
 
+      {/* Prev */}
       <button
         onClick={(e) => { e.stopPropagation(); onPrev(); }}
-        className="absolute left-4 text-white/70 hover:text-white bg-black/40 p-3 rounded-full transition-colors z-10"
+        className="absolute left-2 sm:left-4 text-white/70 hover:text-white bg-black/40 p-2 sm:p-3 rounded-full transition-colors z-10"
         aria-label="Previous image"
       >
-        <ChevronLeft size={28} />
+        <ChevronLeft size={22} />
       </button>
 
+      {/* Image + caption */}
       <div
-        className="max-w-5xl max-h-[85vh] w-full mx-16 flex flex-col items-center gap-3"
+        className="max-w-5xl max-h-[85vh] w-full mx-12 sm:mx-20 flex flex-col items-center gap-3"
         onClick={(e) => e.stopPropagation()}
       >
         <img
           src={image.url}
           alt={image.alt}
-          className="max-h-[78vh] max-w-full object-contain rounded-lg shadow-2xl"
+          className="max-h-[75vh] max-w-full object-contain rounded-lg shadow-2xl"
         />
         <div className="flex items-center gap-3">
-          <span className="text-white/90 text-sm">{image.alt}</span>
-          <span className="text-white/40 text-sm">
-            {selectedIndex + 1} / {images.length}
-          </span>
+          <span className="text-white/80 text-xs sm:text-sm">{image.alt}</span>
+          <span className="text-white/40 text-xs">{selectedIndex + 1} / {images.length}</span>
         </div>
         <div className="flex gap-1.5">
           {images.map((_, i) => (
-            <div
-              key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${i === selectedIndex ? 'bg-[#C9A961]' : 'bg-white/30'}`}
-            />
+            <div key={i} className={`w-1.5 h-1.5 rounded-full transition-colors ${i === selectedIndex ? 'bg-[#C9A961]' : 'bg-white/30'}`} />
           ))}
         </div>
       </div>
 
+      {/* Next */}
       <button
         onClick={(e) => { e.stopPropagation(); onNext(); }}
-        className="absolute right-4 text-white/70 hover:text-white bg-black/40 p-3 rounded-full transition-colors z-10"
+        className="absolute right-2 sm:right-4 text-white/70 hover:text-white bg-black/40 p-2 sm:p-3 rounded-full transition-colors z-10"
         aria-label="Next image"
       >
-        <ChevronRight size={28} />
+        <ChevronRight size={22} />
       </button>
     </div>
   );

@@ -109,7 +109,7 @@ export function Contact() {
           </div>
 
           <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-sm space-y-5">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="text-sm font-medium text-foreground/70">Full Name</label>
                 <input value={form.name} onChange={set('name')} className={inputClass('name')} placeholder="Jane Smith" />

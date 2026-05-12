@@ -1,18 +1,15 @@
+import { Outlet } from 'react-router';
 import { Toaster } from 'sonner';
 import { Navbar, Footer } from '@/components/layout';
-import { Hero, About, Activities, Restaurant, Gallery, Contact } from '@/components/sections';
+import { ScrollToTop } from '@/components/layout/ScrollToTop';
 
 export default function App() {
   return (
-    <div className="size-full">
+    <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Activities />
-        <Restaurant />
-        <Gallery />
-        <Contact />
+      <main className="flex-1">
+        <Outlet />
       </main>
       <Footer />
       <Toaster richColors position="top-right" />
